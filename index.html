@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Lux Stickers · Generador Personalizado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a12;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+            background-image: radial-gradient(circle at 20% 50%, #1a0a2e 0%, #0a0a12 70%);
+        }
+        .container { max-width: 520px; width: 100%; }
+        .card {
+            background: rgba(18, 18, 34, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 32px;
+            padding: 40px 30px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 40px rgba(201,168,76,0.05);
+            transition: 0.4s ease;
+        }
+        .card:hover {
+            border-color: rgba(201, 168, 76, 0.4);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 60px rgba(201,168,76,0.08);
+        }
+        .logo { text-align: center; margin-bottom: 24px; }
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #C9A84C, #E8D5A3, #C9A84C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+        .logo p { color: #8888aa; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; margin-top: 4px; }
+        .password-box { display: none; animation: fadeIn 0.6s ease; }
+        .password-box.active { display: block; }
+        .password-box input {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 16px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            margin-bottom: 16px;
+        }
+        .password-box input:focus {
+            border-color: #C9A84C;
+            box-shadow: 0 0 20px rgba(201,168,76,0.1);
+        }
+        .btn-gold {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #C9A84C, #B8923A);
+            border: none;
+            border-radius: 16px;
+            color: #0a0a12;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+        .btn-gold:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 30px rgba(201,168,76,0.25);
+        }
+        .creator { display: none; animation: fadeIn 0.6s ease; }
+        .creator.active { display: block; }
+        .upload-area {
+            border: 2px dashed rgba(201,168,76,0.2);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.02);
+        }
+        .upload-area:hover {
+            border-color: #C9A84C;
+            background: rgba(201,168,76,0.04);
+        }
+        .upload-area img { max-width: 100%; max-height: 200px; border-radius: 16px; }
+        .upload-area p { color: #8888aa; font-size: 0.9rem; margin-top: 10px; }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 16px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 16px;
+            transition: 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #C9A84C;
+            box-shadow: 0 0 20px rgba(201,168,76,0.08);
+        }
+        .preview-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid rgba(201,168,76,0.1);
+        }
+        .preview-box img { max-width: 200px; border-radius: 16px; }
+        .footer-text {
+            text-align: center;
+            color: #444466;
+            font-size: 0.7rem;
+            margin-top: 24px;
+            letter-spacing: 1px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .error { color: #ff6b6b; font-size: 0.8rem; margin-top: 8px; display: none; }
+        .bbimage {
+            display: block;
+            margin: 10px auto;
+            max-width: 80px;
+            border-radius: 50%;
+            border: 2px solid rgba(201,168,76,0.3);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="logo">
+            <img src="https://i.ibb.co/1ffmG0kP/sticker2-mensaje.png" alt="bbimage" class="bbimage">
+            <h1>✦ Lux Stickers ✦</h1>
+            <p>Generador personalizado</p>
+        </div>
+
+        <div class="password-box active" id="passwordBox">
+            <p style="color:#8888aa; text-align:center; margin-bottom:20px; font-size:0.9rem;">Ingresa la clave para acceder</p>
+            <input type="password" id="passwordInput" placeholder="Contraseña" autofocus>
+            <button class="btn-gold" onclick="verificarPassword()">✦ Acceder ✦</button>
+            <div class="error" id="errorMsg">Contraseña incorrecta. Intenta de nuevo.</div>
+        </div>
+
+        <div class="creator" id="creatorBox">
+            <p style="color:#aaaacc; text-align:center; margin-bottom:16px; font-size:0.9rem;">Sube tu imagen y escribe un mensaje</p>
+
+            <div class="upload-area" id="uploadArea">
+                <input type="file" id="fileInput" accept="image/*" style="display:none;">
+                <img id="previewImage" src="" alt="Vista previa" style="display:none;">
+                <p id="uploadText">🖼️ Toca aquí para subir una imagen</p>
+            </div>
+
+            <input type="text" id="messageInput" placeholder="Mensaje personalizado (máx. 20 caracteres)" maxlength="20">
+
+            <button class="btn-gold" onclick="generarSticker()">✨ Generar mi sticker ✨</button>
+
+            <div id="resultado" style="margin-top:20px; display:none;">
+                <div class="preview-box">
+                    <img id="stickerResultado" src="" alt="Sticker generado">
+                </div>
+                <div class="snapchat-creative-kit-share" 
+                     data-theme="dark" 
+                     data-share-url="https://luxsticker.netlify.app/">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-text">Lux Vinculum · El tiempo se honra</div>
+    </div>
+</div>
+
+<script>
+    const PASSWORD = "FERNANDA-ISABELLA";
+
+    function verificarPassword() {
+        const input = document.getElementById('passwordInput');
+        const error = document.getElementById('errorMsg');
+        if (input.value === PASSWORD) {
+            document.getElementById('passwordBox').classList.remove('active');
+            document.getElementById('creatorBox').classList.add('active');
+        } else {
+            error.style.display = 'block';
+            input.value = '';
+            input.focus();
+        }
+    }
+
+    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') verificarPassword();
+    });
+
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const previewImage = document.getElementById('previewImage');
+    const uploadText = document.getElementById('uploadText');
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                previewImage.src = ev.target.result;
+                previewImage.style.display = 'block';
+                uploadText.textContent = '✅ Imagen cargada';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function generarSticker() {
+        const file = document.getElementById('fileInput').files[0];
+        const mensaje = document.getElementById('messageInput').value.trim() || '✨ Lux ✨';
+        if (!file) { alert('Primero sube una imagen.'); return; }
+        document.getElementById('resultado').style.display = 'block';
+        const img = new Image();
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 400;
+                canvas.height = 400;
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, 400, 400);
+                ctx.drawImage(img, 0, 0, 400, 400);
+                ctx.font = 'bold 28px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                ctx.shadowBlur = 10;
+                ctx.fillStyle = '#FFFFFF';
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 0;
+                const x = 200;
+                const y = 360;
+                ctx.strokeText(mensaje, x, y);
+                ctx.fillText(mensaje, x, y);
+                const stickerDataURL = canvas.toDataURL('image/png');
+                document.getElementById('stickerResultado').src = stickerDataURL;
+                document.getElementById('stickerResultado').style.display = 'block';
+                document.getElementById('stickerResultado').alt = 'Sticker generado';
+                // Subir a ImgBB y actualizar Snapchat
+                subirSticker(stickerDataURL);
+            };
+            img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function subirSticker(stickerDataURL) {
+        const formData = new FormData();
+        formData.append('key', '0119ff8c6303cd4d9b60280840db439c');
+        formData.append('image', stickerDataURL);
+        formData.append('name', 'sticker_personalizado');
+
+        fetch('https://api.imgbb.com/1/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const url = data.data.url;
+                document.getElementById('stickerResultado').src = url;
+                const shareDiv = document.querySelector('.snapchat-creative-kit-share');
+                if (shareDiv) {
+                    shareDiv.setAttribute('data-share-url', url);
+                }
+                alert('✅ Sticker generado. Ahora puedes compartirlo en Snapchat.');
+            } else {
+                alert('❌ Error al subir el sticker: ' + data.error.message);
+            }
+        })
+        .catch(error => {
+            alert('❌ Error de conexión: ' + error);
+        });
+    }
+
+    (function() {
+        const sdk = document.createElement('script');
+        sdk.src = 'https://sdk.snapkit.com/js/v1/create.js';
+        sdk.async = true;
+        document.body.appendChild(sdk);
+    })();
+</script>
+</body>
+</html>
