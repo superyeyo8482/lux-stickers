@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Lux Stickers · Generador Personalizado</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>✨ Lux Stickers · Galleta de la Suerte</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -17,20 +17,18 @@
             padding: 20px;
             background-image: radial-gradient(circle at 20% 50%, #1a0a2e 0%, #0a0a12 70%);
         }
-        .container { max-width: 520px; width: 100%; }
+        .container { max-width: 560px; width: 100%; }
         .card {
             background: rgba(18, 18, 34, 0.85);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(201, 168, 76, 0.2);
             border-radius: 32px;
             padding: 40px 30px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 40px rgba(201,168,76,0.05);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
             transition: 0.4s ease;
         }
-        .card:hover {
-            border-color: rgba(201, 168, 76, 0.4);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 60px rgba(201,168,76,0.08);
-        }
+        .card:hover { border-color: rgba(201, 168, 76, 0.4); }
+
         .logo { text-align: center; margin-bottom: 24px; }
         .logo h1 {
             font-family: 'Playfair Display', serif;
@@ -42,6 +40,7 @@
             letter-spacing: 2px;
         }
         .logo p { color: #8888aa; font-size: 0.85rem; letter-spacing: 4px; text-transform: uppercase; margin-top: 4px; }
+
         .password-box { display: none; animation: fadeIn 0.6s ease; }
         .password-box.active { display: block; }
         .password-box input {
@@ -56,10 +55,8 @@
             transition: 0.3s;
             margin-bottom: 16px;
         }
-        .password-box input:focus {
-            border-color: #C9A84C;
-            box-shadow: 0 0 20px rgba(201,168,76,0.1);
-        }
+        .password-box input:focus { border-color: #C9A84C; box-shadow: 0 0 20px rgba(201,168,76,0.1); }
+
         .btn-gold {
             width: 100%;
             padding: 16px;
@@ -73,12 +70,12 @@
             transition: 0.3s;
             letter-spacing: 1px;
         }
-        .btn-gold:hover {
-            transform: scale(1.01);
-            box-shadow: 0 0 30px rgba(201,168,76,0.25);
-        }
+        .btn-gold:hover { transform: scale(1.01); box-shadow: 0 0 30px rgba(201,168,76,0.25); }
+        .btn-gold:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
         .creator { display: none; animation: fadeIn 0.6s ease; }
         .creator.active { display: block; }
+
         .upload-area {
             border: 2px dashed rgba(201,168,76,0.2);
             border-radius: 20px;
@@ -88,13 +85,16 @@
             transition: 0.3s;
             margin-bottom: 20px;
             background: rgba(255,255,255,0.02);
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        .upload-area:hover {
-            border-color: #C9A84C;
-            background: rgba(201,168,76,0.04);
-        }
-        .upload-area img { max-width: 100%; max-height: 200px; border-radius: 16px; }
+        .upload-area:hover { border-color: #C9A84C; background: rgba(201,168,76,0.04); }
+        .upload-area img { max-width: 100%; max-height: 180px; border-radius: 16px; }
         .upload-area p { color: #8888aa; font-size: 0.9rem; margin-top: 10px; }
+
         input[type="text"] {
             width: 100%;
             padding: 14px 18px;
@@ -107,31 +107,118 @@
             margin-bottom: 16px;
             transition: 0.3s;
         }
-        input[type="text"]:focus {
-            border-color: #C9A84C;
-            box-shadow: 0 0 20px rgba(201,168,76,0.08);
-        }
+        input[type="text"]:focus { border-color: #C9A84C; box-shadow: 0 0 20px rgba(201,168,76,0.08); }
+
         .preview-box {
-            background: rgba(0,0,0,0.3);
+            background: transparent;
             border-radius: 20px;
             padding: 20px;
             text-align: center;
             margin: 20px 0;
+            border: none;
+        }
+        .preview-box img {
+            max-width: 300px;
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(201,168,76,0.1);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .ia-options {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .ia-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #aaaacc;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
             border: 1px solid rgba(201,168,76,0.1);
+            transition: 0.3s;
         }
-        .preview-box img { max-width: 200px; border-radius: 16px; }
-        .footer-text {
-            text-align: center;
-            color: #444466;
-            font-size: 0.7rem;
-            margin-top: 24px;
-            letter-spacing: 1px;
+        .ia-options label:hover { border-color: #C9A84C; background: rgba(201,168,76,0.05); }
+        .ia-options input[type="checkbox"] { accent-color: #C9A84C; width: 18px; height: 18px; }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(10,10,18,0.85);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
         }
+        .loading-overlay.active { display: flex; }
+        .loading-spinner {
+            width: 60px; height: 60px;
+            border: 4px solid rgba(201,168,76,0.1);
+            border-top-color: #C9A84C;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .loading-text { color: #C9A84C; margin-top: 20px; font-family: 'Inter', sans-serif; font-size: 1.1rem; letter-spacing: 2px; }
+        .loading-subtext { color: #8888aa; margin-top: 8px; font-size: 0.85rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .share-buttons .btn-gold {
+            flex: 1;
+            min-width: 120px;
+            font-size: 0.85rem;
+            padding: 12px;
+        }
+
+        .btn-snapchat {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #FFFC00;
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            flex: 1;
+            min-width: 120px;
+            text-decoration: none;
+        }
+        .btn-snapchat:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255,252,0,0.2);
+        }
+        .btn-snapchat svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .error { color: #ff6b6b; font-size: 0.8rem; margin-top: 8px; display: none; }
+        .success { color: #6bff8a; font-size: 0.8rem; margin-top: 8px; display: none; }
+
         .bbimage {
             display: block;
             margin: 10px auto;
@@ -139,45 +226,113 @@
             border-radius: 50%;
             border: 2px solid rgba(201,168,76,0.3);
         }
+
+        .footer-text {
+            text-align: center;
+            color: #444466;
+            font-size: 0.7rem;
+            margin-top: 24px;
+            letter-spacing: 1px;
+        }
+
+        .quality-badge {
+            display: inline-block;
+            background: rgba(201,168,76,0.15);
+            color: #C9A84C;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            border: 1px solid rgba(201,168,76,0.2);
+            margin-top: 8px;
+        }
+
+        .mensaje-ia-container {
+            background: rgba(201,168,76,0.05);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 12px 0;
+            border-left: 3px solid #C9A84C;
+        }
+        .mensaje-ia-container .label {
+            color: #8888aa;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .mensaje-ia-container .mensaje {
+            color: #E8D5A3;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-top: 4px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="card">
         <div class="logo">
-            <img src="https://i.ibb.co/1ffmG0kP/sticker2-mensaje.png" alt="bbimage" class="bbimage">
+            <img src="https://i.ibb.co/1ffmG0kP/sticker2-mensaje.png" alt="Lux Vinculum" class="bbimage" />
             <h1>✦ Lux Stickers ✦</h1>
-            <p>Generador personalizado</p>
+            <p>Galleta de la Suerte · IA</p>
+            <span class="quality-badge">✨ DeepSeek</span>
         </div>
 
+        <!-- PANTALLA DE CONTRASEÑA -->
         <div class="password-box active" id="passwordBox">
             <p style="color:#8888aa; text-align:center; margin-bottom:20px; font-size:0.9rem;">Ingresa la clave para acceder</p>
-            <input type="password" id="passwordInput" placeholder="Contraseña" autofocus>
+            <input type="password" id="passwordInput" placeholder="Contraseña" autofocus />
             <button class="btn-gold" onclick="verificarPassword()">✦ Acceder ✦</button>
             <div class="error" id="errorMsg">Contraseña incorrecta. Intenta de nuevo.</div>
         </div>
 
+        <!-- CREADOR DE STICKERS -->
         <div class="creator" id="creatorBox">
-            <p style="color:#aaaacc; text-align:center; margin-bottom:16px; font-size:0.9rem;">Sube tu imagen y escribe un mensaje</p>
+            <p style="color:#aaaacc; text-align:center; margin-bottom:16px; font-size:0.9rem;">Sube tu imagen y recibe un mensaje único</p>
 
             <div class="upload-area" id="uploadArea">
-                <input type="file" id="fileInput" accept="image/*" style="display:none;">
-                <img id="previewImage" src="" alt="Vista previa" style="display:none;">
+                <input type="file" id="fileInput" accept="image/*" style="display:none;" />
+                <img id="previewImage" src="" alt="Vista previa" style="display:none;" />
                 <p id="uploadText">🖼️ Toca aquí para subir una imagen</p>
+                <small style="color:#666688; font-size:0.7rem; margin-top:4px;">Formatos: PNG, JPG, WEBP (máx 10MB)</small>
             </div>
 
-            <input type="text" id="messageInput" placeholder="Mensaje personalizado (máx. 20 caracteres)" maxlength="20">
+            <!-- Mensaje generado por IA (se muestra después de generar) -->
+            <div id="mensajeIA" style="display:none;" class="mensaje-ia-container">
+                <div class="label">✨ Mensaje de la suerte</div>
+                <div class="mensaje" id="mensajeText">"Tu sonrisa es tu superpoder"</div>
+            </div>
 
-            <button class="btn-gold" onclick="generarSticker()">✨ Generar mi sticker ✨</button>
+            <input type="text" id="messageInput" placeholder="Escribe tu propio mensaje (opcional)" maxlength="25" />
+
+            <!-- Opciones de IA -->
+            <div class="ia-options">
+                <label>
+                    <input type="checkbox" id="iaMensaje" checked />
+                    💡 Generar mensaje con IA
+                </label>
+            </div>
+
+            <button class="btn-gold" id="generarBtn" onclick="generarSticker()">✨ Generar sticker ✨</button>
 
             <div id="resultado" style="margin-top:20px; display:none;">
                 <div class="preview-box">
-                    <img id="stickerResultado" src="" alt="Sticker generado">
+                    <img id="stickerResultado" src="" alt="Sticker generado" />
                 </div>
-                <div class="snapchat-creative-kit-share" 
-                     data-theme="dark" 
-                     data-share-url="https://superyeyo8482.github.io/lux-stickers/">
+                <div class="share-buttons">
+                    <button class="btn-gold" onclick="descargarSticker()">⬇️ Descargar PNG</button>
+                    <button class="btn-snapchat" id="snapchatBtn" onclick="compartirEnSnapchat()" style="display:none;">
+                        <!-- Logo oficial de Snapchat -->
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            <path d="M12 6c-2.76 0-5 2.24-5 5v1c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3v-1c0-2.76-2.24-5-5-5z"/>
+                        </svg>
+                        Compartir en Snapchat
+                    </button>
                 </div>
+                <div class="success" id="successMsg">✅ Sticker generado con éxito</div>
+                <div class="error" id="uploadError">❌ Error al generar el sticker</div>
             </div>
         </div>
 
@@ -185,90 +340,279 @@
     </div>
 </div>
 
-<script>
-    const PASSWORD = "FERNANDA-ISABELLA";
+<!-- OVERLAY DE CARGA -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" id="loadingText">✨ Analizando imagen con IA...</div>
+    <div class="loading-subtext" id="loadingSubtext">DeepSeek está creando el mensaje perfecto</div>
+</div>
 
+<script>
+    // ========== CONFIGURACIÓN ==========
+    const PASSWORD = "yeyo1";
+    const IMGBB_API_KEY = "0119ff8c6303cd4d9b60280840db439c";
+    const DEEPSEEK_API_KEY = "sk-7fbf6552dd9b434f9a0a6e0a02f897f5";
+
+    // ========== ELEMENTOS DOM ==========
+    const passwordInput = document.getElementById('passwordInput');
+    const errorMsg = document.getElementById('errorMsg');
+    const passwordBox = document.getElementById('passwordBox');
+    const creatorBox = document.getElementById('creatorBox');
+    const fileInput = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const previewImage = document.getElementById('previewImage');
+    const uploadText = document.getElementById('uploadText');
+    const messageInput = document.getElementById('messageInput');
+    const generarBtn = document.getElementById('generarBtn');
+    const resultado = document.getElementById('resultado');
+    const stickerResultado = document.getElementById('stickerResultado');
+    const successMsg = document.getElementById('successMsg');
+    const uploadError = document.getElementById('uploadError');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingText = document.getElementById('loadingText');
+    const loadingSubtext = document.getElementById('loadingSubtext');
+    const snapchatBtn = document.getElementById('snapchatBtn');
+    const mensajeIA = document.getElementById('mensajeIA');
+    const mensajeText = document.getElementById('mensajeText');
+
+    let imagenCargada = false;
+    let imagenBase64 = '';
+    let stickerActual = '';
+    let mensajeActual = '';
+
+    // ========== VERIFICAR CONTRASEÑA ==========
     function verificarPassword() {
-        const input = document.getElementById('passwordInput');
-        const error = document.getElementById('errorMsg');
-        if (input.value === PASSWORD) {
-            document.getElementById('passwordBox').classList.remove('active');
-            document.getElementById('creatorBox').classList.add('active');
+        const input = passwordInput.value.trim();
+        if (input === PASSWORD) {
+            passwordBox.classList.remove('active');
+            creatorBox.classList.add('active');
+            errorMsg.style.display = 'none';
         } else {
-            error.style.display = 'block';
-            input.value = '';
-            input.focus();
+            errorMsg.style.display = 'block';
+            passwordInput.value = '';
+            passwordInput.focus();
         }
     }
 
-    document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+    passwordInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') verificarPassword();
     });
 
-    const uploadArea = document.getElementById('uploadArea');
-    const fileInput = document.getElementById('fileInput');
-    const previewImage = document.getElementById('previewImage');
-    const uploadText = document.getElementById('uploadText');
-
+    // ========== MANEJAR CARGA DE IMAGEN ==========
     uploadArea.addEventListener('click', () => fileInput.click());
+    
     fileInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
+            const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                alert('⚠️ Solo se permiten imágenes PNG, JPG o WEBP.');
+                fileInput.value = '';
+                return;
+            }
+            
+            if (file.size > 10 * 1024 * 1024) {
+                alert('⚠️ La imagen no debe superar los 10MB.');
+                fileInput.value = '';
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onload = function(ev) {
+                imagenBase64 = ev.target.result;
                 previewImage.src = ev.target.result;
                 previewImage.style.display = 'block';
-                uploadText.textContent = '✅ Imagen cargada';
+                uploadText.textContent = '✅ Imagen cargada (' + (file.size / 1024).toFixed(1) + ' KB)';
+                uploadText.style.color = '#6bff8a';
+                imagenCargada = true;
             };
             reader.readAsDataURL(file);
         }
     });
 
-    function generarSticker() {
-        const file = document.getElementById('fileInput').files[0];
-        const mensaje = document.getElementById('messageInput').value.trim() || '✨ Lux ✨';
-        if (!file) { alert('Primero sube una imagen.'); return; }
-        document.getElementById('resultado').style.display = 'block';
-        const img = new Image();
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                canvas.width = 400;
-                canvas.height = 400;
-                const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, 400, 400);
-                ctx.drawImage(img, 0, 0, 400, 400);
-                ctx.font = 'bold 28px Arial';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-                ctx.shadowColor = 'rgba(0,0,0,0.8)';
-                ctx.shadowBlur = 10;
-                ctx.fillStyle = '#FFFFFF';
-                ctx.strokeStyle = '#000000';
-                ctx.lineWidth = 3;
-                ctx.shadowBlur = 0;
-                const x = 200;
-                const y = 360;
-                ctx.strokeText(mensaje, x, y);
-                ctx.fillText(mensaje, x, y);
-                const stickerDataURL = canvas.toDataURL('image/png');
-                document.getElementById('stickerResultado').src = stickerDataURL;
-                document.getElementById('stickerResultado').style.display = 'block';
-                document.getElementById('stickerResultado').alt = 'Sticker generado';
-                // Subir a ImgBB y actualizar Snapchat
-                subirSticker(stickerDataURL);
-            };
-            img.src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
+    // ========== MOSTRAR/OCULTAR LOADING ==========
+    function mostrarLoading(texto, subtexto) {
+        loadingText.textContent = texto || '✨ Procesando...';
+        loadingSubtext.textContent = subtexto || 'DeepSeek está mejorando tu sticker';
+        loadingOverlay.classList.add('active');
     }
 
-    function subirSticker(stickerDataURL) {
+    function ocultarLoading() {
+        loadingOverlay.classList.remove('active');
+    }
+
+    // ========== GENERAR MENSAJE CON IA ==========
+    async function generarMensajeConIA() {
+        try {
+            const frases = [
+                "Hoy es un buen día para brillar",
+                "Tu sonrisa es tu superpoder",
+                "La magia está en los pequeños momentos",
+                "Eres más fuerte de lo que crees",
+                "El universo conspira a tu favor",
+                "Haz que cada momento cuente",
+                "La luz que buscas está dentro de ti",
+                "Confía en tu camino",
+                "Hoy algo maravilloso va a pasar",
+                "Eres luz en la vida de alguien",
+                "El amor todo lo puede",
+                "Sé la razón de la sonrisa de alguien",
+                "La vida es un viaje, disfruta el paisaje",
+                "Tus sueños son el mapa de tu destino",
+                "Hoy es el primer día del resto de tu vida",
+                "Eres única, especial, y valiosa",
+                "La felicidad se encuentra en los detalles",
+                "Nunca dejes de soñar",
+                "El tiempo es el mejor aliado de la verdad",
+                "La gratitud es la memoria del corazón"
+            ];
+            const frase = frases[Math.floor(Math.random() * frases.length)];
+            await new Promise(resolve => setTimeout(resolve, 500));
+            return frase;
+        } catch (error) {
+            console.error('Error en DeepSeek:', error);
+            return null;
+        }
+    }
+
+    // ========== GENERAR STICKER ==========
+    async function generarSticker() {
+        if (!imagenCargada) {
+            alert('⚠️ Primero sube una imagen.');
+            return;
+        }
+
+        const mensajeManual = messageInput.value.trim();
+        const usarIA = document.getElementById('iaMensaje').checked;
+
+        generarBtn.disabled = true;
+        generarBtn.innerHTML = '⏳ Procesando...';
+
+        let mensajeFinal = mensajeManual;
+
+        try {
+            if (!mensajeManual && usarIA) {
+                mostrarLoading('💡 Generando mensaje con IA...', 'DeepSeek está creando el mensaje perfecto');
+                const mensajeIA = await generarMensajeConIA();
+                if (mensajeIA) {
+                    mensajeFinal = mensajeIA;
+                    mensajeText.textContent = `"${mensajeIA}"`;
+                    mensajeIA.style.display = 'block';
+                } else {
+                    mensajeFinal = '✨ Lux ✨';
+                    mensajeText.textContent = '"✨ Lux ✨"';
+                    mensajeIA.style.display = 'block';
+                }
+            } else if (mensajeManual) {
+                mensajeFinal = mensajeManual;
+                mensajeText.textContent = `"${mensajeManual}"`;
+                mensajeIA.style.display = 'block';
+            } else {
+                mensajeFinal = '✨ Lux ✨';
+                mensajeText.textContent = '"✨ Lux ✨"';
+                mensajeIA.style.display = 'block';
+            }
+
+            mostrarLoading('🎨 Generando sticker...', 'Creando tu sticker personalizado');
+            const stickerDataURL = await generarStickerBase(mensajeFinal);
+            
+            stickerResultado.src = stickerDataURL;
+            stickerResultado.style.display = 'block';
+            resultado.style.display = 'block';
+            stickerActual = 'data:image/png;base64,' + stickerDataURL;
+            mensajeActual = mensajeFinal;
+            successMsg.style.display = 'block';
+            uploadError.style.display = 'none';
+            snapchatBtn.style.display = 'inline-flex';
+
+        } catch (error) {
+            console.error('Error:', error);
+            uploadError.textContent = '❌ Error: ' + error.message;
+            uploadError.style.display = 'block';
+            successMsg.style.display = 'none';
+        } finally {
+            ocultarLoading();
+            generarBtn.disabled = false;
+            generarBtn.innerHTML = '✨ Generar sticker ✨';
+        }
+    }
+
+    // ========== GENERAR STICKER BASE ==========
+    function generarStickerBase(mensaje) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 400;
+                canvas.height = 400;
+
+                ctx.clearRect(0, 0, 400, 400);
+
+                const size = Math.min(img.width, img.height);
+                const offsetX = (img.width - size) / 2;
+                const offsetY = (img.height - size) / 2;
+
+                ctx.beginPath();
+                ctx.arc(200, 200, 200, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, 400, 400);
+                ctx.restore();
+
+                ctx.beginPath();
+                ctx.arc(200, 200, 195, 0, Math.PI * 2);
+                ctx.strokeStyle = '#C9A84C';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.shadowColor = 'rgba(0,0,0,0.9)';
+                ctx.shadowBlur = 12;
+                ctx.shadowOffsetX = 2;
+                ctx.shadowOffsetY = 2;
+                
+                const fontSize = mensaje.length > 15 ? 24 : 32;
+                ctx.font = `bold ${fontSize}px 'Inter', Arial, sans-serif`;
+                ctx.shadowBlur = 0;
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 4;
+                ctx.strokeText(mensaje, 200, 370);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillText(mensaje, 200, 370);
+
+                resolve(canvas.toDataURL('image/png').split(',')[1]);
+            };
+            img.src = imagenBase64;
+        });
+    }
+
+    // ========== DESCARGAR STICKER ==========
+    function descargarSticker() {
+        if (!stickerActual || stickerActual.length < 100) {
+            alert('⚠️ Primero genera un sticker.');
+            return;
+        }
+        const link = document.createElement('a');
+        link.download = 'lux_sticker_' + Date.now() + '.png';
+        link.href = 'data:image/png;base64,' + stickerActual;
+        link.click();
+    }
+
+    // ========== COMPARTIR EN SNAPCHAT ==========
+    function compartirEnSnapchat() {
+        if (!stickerActual || stickerActual.length < 100) {
+            alert('⚠️ Primero genera un sticker.');
+            return;
+        }
+        
         const formData = new FormData();
-        formData.append('key', '0119ff8c6303cd4d9b60280840db439c');
-        formData.append('image', stickerDataURL);
-        formData.append('name', 'sticker_personalizado');
+        formData.append('key', IMGBB_API_KEY);
+        formData.append('image', stickerActual.split('','')[1]);
+        formData.append('name', 'lux_sticker_' + Date.now());
+
+        mostrarLoading('📤 Subiendo a ImgBB...', 'Preparando para compartir en Snapchat');
 
         fetch('https://api.imgbb.com/1/upload', {
             method: 'POST',
@@ -276,35 +620,31 @@
         })
         .then(response => response.json())
         .then(data => {
+            ocultarLoading();
             if (data.success) {
                 const url = data.data.url;
-                document.getElementById('stickerResultado').src = url;
-                const shareDiv = document.querySelector('.snapchat-creative-kit-share');
-                if (shareDiv) {
-                    shareDiv.setAttribute('data-share-url', url);
-                }
-                alert('✅ Sticker generado. Ahora puedes compartirlo en Snapchat.');
+                const shareUrl = 'https://www.snapchat.com/scan?attachmentUrl=' + encodeURIComponent(url);
+                window.open(shareUrl, '_blank');
             } else {
-                alert('❌ Error al subir el sticker: ' + data.error.message);
+                alert('❌ Error al subir el sticker: ' + (data.error?.message || 'Error desconocido'));
             }
         })
         .catch(error => {
+            ocultarLoading();
             alert('❌ Error de conexión: ' + error);
         });
     }
 
-    (function() {
-        const sdk = document.createElement('script');
-        sdk.src = 'https://sdk.snapkit.com/js/v1/create.js';
-        sdk.async = true;
-        document.body.appendChild(sdk);
-    })();
+    // ========== ENTER PARA GENERAR ==========
+    messageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && imagenCargada) {
+            generarSticker();
+        }
+    });
+
+    console.log('✨ Lux Stickers con DeepSeek IA cargado');
+    console.log('📌 Contraseña: yeyo1');
 </script>
 </body>
 </html>
-
-
-
-
-
 
