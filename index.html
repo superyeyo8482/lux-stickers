@@ -349,7 +349,7 @@
 
 <script>
     // ========== CONFIGURACIÓN ==========
-    const PASSWORD = "yeyo1";
+    const PASSWORD = "stickers1";
     const IMGBB_API_KEY = "0119ff8c6303cd4d9b60280840db439c";
     const DEEPSEEK_API_KEY = "sk-7fbf6552dd9b434f9a0a6e0a02f897f5";
 
@@ -381,13 +381,27 @@
     let mensajeActual = '';
 
     // ========== VERIFICAR CONTRASEÑA ==========
+        // ========== VERIFICAR CONTRASEÑA ==========
     function verificarPassword() {
-        const input = passwordInput.value.trim();
-        if (input === PASSWORD) {
-            passwordBox.classList.remove('active');
-            creatorBox.classList.add('active');
-            errorMsg.style.display = 'none';
+        const input = document.getElementById('passwordInput');
+        const error = document.getElementById('errorMsg');
+        if (!input) {
+            console.error('❌ No se encontró el campo passwordInput');
+            return;
+        }
+        if (input.value === PASSWORD) {
+            document.getElementById('passwordBox').classList.remove('active');
+            document.getElementById('creatorBox').classList.add('active');
+            if (error) error.style.display = 'none';
         } else {
+            if (error) error.style.display = 'block';
+            input.value = '';
+            input.focus();
+        }
+    }
+
+    // Asegurar que la función esté disponible globalmente
+    window.verificarPassword = verificarPassword; else {
             errorMsg.style.display = 'block';
             passwordInput.value = '';
             passwordInput.focus();
@@ -442,7 +456,7 @@
     }
 
     // ========== GENERAR MENSAJE CON IA ==========
-    async function generarMensajeConIA() {
+    function generarMensajeConIA() {
         try {
             const frases = [
                 "Hoy es un buen día para brillar",
@@ -477,7 +491,7 @@
 
     // ========== GENERAR STICKER ==========
         // ========== GENERAR STICKER ==========
-    async function generarSticker() {
+    function generarSticker() {
         if (!imagenCargada || !imagenBase64) {
             alert('⚠️ Primero sube una imagen.');
             return;
@@ -811,8 +825,17 @@
     })();
 </script>
 <!-- Forzado: 20260716_142613 -->
+<script>
+    // =============================================
+    // DIAGNÓSTICO DE CARGA
+    // =============================================
+    console.log('✅ Lux Stickers cargado correctamente');
+    console.log('🔑 Contraseña configurada:', typeof PASSWORD !== 'undefined' ? PASSWORD : 'NO DEFINIDA');
+    console.log('📌 Función verificarPassword:', typeof verificarPassword !== 'undefined' ? 'DEFINIDA' : 'NO DEFINIDA');
+</script>
 </body>
 </html>
+
 
 
 
