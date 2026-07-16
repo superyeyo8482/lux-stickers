@@ -476,11 +476,77 @@
     }
 
     // ========== GENERAR STICKER ==========
+        // ========== GENERAR STICKER ==========
     async function generarSticker() {
-        if (!imagenCargada) {
+        if (!imagenCargada || !imagenBase64) {
             alert('⚠️ Primero sube una imagen.');
             return;
         }
+
+        const mensajeManual = messageInput.value.trim();
+        const usarIA = document.getElementById('iaMensaje').checked;
+
+        generarBtn.disabled = true;
+        generarBtn.innerHTML = '⏳ Procesando...';
+
+        let mensajeFinal = mensajeManual;
+
+        try {
+            // Generar mensaje con IA si está activada y no hay mensaje manual
+            if (!mensajeManual && usarIA) {
+                mostrarLoading('💡 Generando mensaje con IA...', 'DeepSeek está creando el mensaje perfecto');
+                const mensajeIA = await generarMensajeConIA();
+                if (mensajeIA) {
+                    mensajeFinal = mensajeIA;
+                    mensajeText.textContent = `"${mensajeIA}"`;
+                    mensajeIA.style.display = 'block';
+                } else {
+                    mensajeFinal = '✨ Lux ✨';
+                    mensajeText.textContent = '"✨ Lux ✨"';
+                    mensajeIA.style.display = 'block';
+                }
+            } else if (mensajeManual) {
+                mensajeFinal = mensajeManual;
+                mensajeText.textContent = `"${mensajeManual}"`;
+                mensajeIA.style.display = 'block';
+            } else {
+                mensajeFinal = '✨ Lux ✨';
+                mensajeText.textContent = '"✨ Lux ✨"';
+                mensajeIA.style.display = 'block';
+            }
+
+            // Generar el sticker
+            mostrarLoading('🎨 Generando sticker...', 'Creando tu sticker personalizado');
+            const base64Data = await generarStickerBase(mensajeFinal);
+            
+            if (!base64Data) {
+                throw new Error('No se pudo generar el sticker');
+            }
+            
+            // Reconstruir Data URL para mostrar
+            const dataURL = 'data:image/png;base64,' + base64Data;
+            stickerResultado.src = dataURL;
+            stickerResultado.style.display = 'block';
+            resultado.style.display = 'block';
+            
+            stickerActual = dataURL;
+            mensajeActual = mensajeFinal;
+            
+            successMsg.style.display = 'block';
+            uploadError.style.display = 'none';
+            snapchatBtn.style.display = 'inline-flex';
+
+        } catch (error) {
+            console.error('Error:', error);
+            uploadError.textContent = '❌ Error: ' + error;
+            uploadError.style.display = 'block';
+            successMsg.style.display = 'none';
+        } finally {
+            ocultarLoading();
+            generarBtn.disabled = false;
+            generarBtn.innerHTML = '✨ Generar sticker ✨';
+        }
+    }
 
         const mensajeManual = messageInput.value.trim();
         const usarIA = document.getElementById('iaMensaje').checked;
@@ -538,43 +604,84 @@
     }
 
     // ========== GENERAR STICKER BASE ==========
+        // ========== GENERAR STICKER BASE ==========
     function generarStickerBase(mensaje) {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
+            if (!imagenBase64) {
+                reject('No hay imagen cargada');
+                return;
+            }
+            
             const img = new Image();
+            img.crossOrigin = 'anonymous';
+            
             img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = 400;
-                canvas.height = 400;
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = 400;
+                    canvas.height = 400;
 
-                ctx.clearRect(0, 0, 400, 400);
+                    // Fondo transparente
+                    ctx.clearRect(0, 0, 400, 400);
 
-                const size = Math.min(img.width, img.height);
-                const offsetX = (img.width - size) / 2;
-                const offsetY = (img.height - size) / 2;
+                    // Recorte circular con borde suavizado
+                    ctx.beginPath();
+                    ctx.arc(200, 200, 200, 0, Math.PI * 2);
+                    ctx.closePath();
+                    ctx.clip();
 
-                ctx.beginPath();
-                ctx.arc(200, 200, 200, 0, Math.PI * 2);
-                ctx.closePath();
-                ctx.clip();
-                ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, 400, 400);
-                ctx.restore();
+                    // Dibujar imagen centrada
+                    const size = Math.min(img.width, img.height);
+                    const offsetX = (img.width - size) / 2;
+                    const offsetY = (img.height - size) / 2;
+                    
+                    ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, 400, 400);
+                    ctx.restore();
 
-                ctx.beginPath();
-                ctx.arc(200, 200, 195, 0, Math.PI * 2);
-                ctx.strokeStyle = '#C9A84C';
-                ctx.lineWidth = 4;
-                ctx.stroke();
+                    // Borde dorado
+                    ctx.beginPath();
+                    ctx.arc(200, 200, 195, 0, Math.PI * 2);
+                    ctx.strokeStyle = '#C9A84C';
+                    ctx.lineWidth = 4;
+                    ctx.stroke();
 
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-                ctx.shadowColor = 'rgba(0,0,0,0.9)';
-                ctx.shadowBlur = 12;
-                ctx.shadowOffsetX = 2;
-                ctx.shadowOffsetY = 2;
-                
-                const fontSize = mensaje.length > 15 ? 24 : 32;
-                ctx.font = `bold ${fontSize}px 'Inter', Arial, sans-serif`;
+                    // Texto con sombra
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.shadowColor = 'rgba(0,0,0,0.9)';
+                    ctx.shadowBlur = 12;
+                    ctx.shadowOffsetX = 2;
+                    ctx.shadowOffsetY = 2;
+                    
+                    const fontSize = mensaje.length > 15 ? 24 : 32;
+                    ctx.font = `bold ${fontSize}px 'Inter', Arial, sans-serif`;
+                    
+                    ctx.shadowBlur = 0;
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 4;
+                    ctx.strokeText(mensaje, 200, 370);
+                    
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillText(mensaje, 200, 370);
+
+                    // Convertir a base64 puro
+                    const dataURL = canvas.toDataURL('image/png');
+                    const base64 = dataURL.split(',')[1];
+                    resolve(base64);
+                    
+                } catch (error) {
+                    reject('Error al dibujar: ' + error.message);
+                }
+            };
+            
+            img.onerror = function() {
+                reject('Error al cargar la imagen');
+            };
+            
+            img.src = imagenBase64;
+        });
+    }px 'Inter', Arial, sans-serif`;
                 ctx.shadowBlur = 0;
                 ctx.strokeStyle = '#000000';
                 ctx.lineWidth = 4;
@@ -601,11 +708,47 @@
     }
 
     // ========== COMPARTIR EN SNAPCHAT ==========
+        // ========== COMPARTIR EN SNAPCHAT ==========
     function compartirEnSnapchat() {
-        if (!stickerActual || stickerActual.length < 100) {
+        if (!stickerActual) {
             alert('⚠️ Primero genera un sticker.');
             return;
         }
+        
+        // Extraer solo el base64
+        const base64Data = stickerActual.split(',')[1];
+        if (!base64Data || base64Data.length < 100) {
+            alert('❌ El sticker no es válido. Genera uno nuevo.');
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append('key', IMGBB_API_KEY);
+        formData.append('image', base64Data);
+        formData.append('name', 'lux_sticker_' + Date.now());
+
+        mostrarLoading('📤 Subiendo a ImgBB...', 'Preparando para compartir en Snapchat');
+
+        fetch('https://api.imgbb.com/1/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            ocultarLoading();
+            if (data.success) {
+                const url = data.data.url;
+                const shareUrl = 'https://www.snapchat.com/scan?attachmentUrl=' + encodeURIComponent(url);
+                window.open(shareUrl, '_blank');
+            } else {
+                alert('❌ Error al subir el sticker: ' + (data.error?.message || 'Error desconocido'));
+            }
+        })
+        .catch(error => {
+            ocultarLoading();
+            alert('❌ Error de conexión: ' + error);
+        });
+    }
         
         const formData = new FormData();
         formData.append('key', IMGBB_API_KEY);
@@ -647,4 +790,5 @@
 </script>
 </body>
 </html>
+
 
