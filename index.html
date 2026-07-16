@@ -788,7 +788,30 @@
     console.log('✨ Lux Stickers con DeepSeek IA cargado');
     console.log('📌 Contraseña: yeyo1');
 </script>
+<script>
+    // =============================================
+    // DETECTOR DE VERSIÓN - Lux Stickers
+    // =============================================
+    (function() {
+        // Obtener el pie de página
+        const footer = document.querySelector('.footer-text');
+        if (!footer) return;
+
+        // Verificar si la URL contiene ?v=2
+        const urlParams = new URLSearchParams(window.location.search);
+        const version = urlParams.get('v');
+
+        if (version === '2') {
+            // Cambiar el texto del pie de página
+            footer.textContent = 'Lux Vinculum · Tu tiempo es tuyo. Úsalo para brillar.';
+            console.log('✨ Versión 2 activada: Pie de página actualizado.');
+        } else {
+            console.log('📌 Versión 1 activada: Pie de página original.');
+        }
+    })();
+</script>
 </body>
 </html>
+
 
 
